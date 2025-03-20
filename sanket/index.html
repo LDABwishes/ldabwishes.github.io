@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, Sanket!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Satisfy&family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(#4B0082, #8A2BE2);
+      margin: 0;
+      padding: 20px;
+      overflow: hidden;
+    }
+    .poster {
+      width: 900px;
+      border: 5px solid #FFFFFF;
+      border-radius: 10px;
+      padding: 20px;
+      background-color: #E6E6FA;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      position: relative;
+      z-index: 0;
+      animation: zoomIn 1s ease-in;
+    }
+    @keyframes zoomIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-family: 'Satisfy', cursive;
+      font-size: 48px;
+      color: #FFFFFF;
+      text-shadow: 2px 2px 4px #4B0082;
+    }
+    .header img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 3px solid #FFFFFF;
+      margin-top: 10px;
+    }
+    .header p {
+      font-family: 'Poppins', sans-serif;
+      font-size: 24px;
+      color: #4B0082;
+    }
+    .members {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .member {
+      border: 2px solid #FFFFFF;
+      background-color: #F8F0FF;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      animation: pulseMember 2s infinite;
+    }
+    @keyframes pulseMember {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+    .member img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid #FFFFFF;
+      margin-bottom: 10px;
+    }
+    .member h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 24px;
+      color: #4B0082;
+      margin: 5px 0;
+    }
+    .member p {
+      font-family: 'Poppins', sans-serif;
+      font-size: 18px;
+      color: #FFFFFF;
+      margin: 0;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .footer p {
+      font-family: 'Poppins', sans-serif;
+      font-size: 24px;
+      color: #FFFFFF;
+    }
+    @media (max-width: 700px) {
+      .poster { width: 100%; }
+      .members { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 400px) {
+      .members { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="poster">
+    <div class="header">
+      <h1>Happy Birthday, Sanket!</h1>
+      <img src="../images/sanket.png" alt="Sanket">
+      <p>From your vibrant crew!</p>
+    </div>
+    <div class="members">
+      <div class="member"><img src="../images/varun.png" alt="Varun"><h2>Varun</h2><p>Chief of labour union</p></div>
+      <div class="member"><img src="../images/ankit.png" alt="Ankit"><h2>Ankit</h2><p>Assistant to the chief</p></div>
+      <div class="member"><img src="../images/vedant.png" alt="Vedant"><h2>Vedant</h2><p>The Labour</p></div>
+      <div class="member"><img src="../images/aniket.png" alt="Aniket"><h2>Aniket</h2><p>CM of l*da ka sarkar</p></div>
+      <div class="member"><img src="../images/rajeet.png" alt="Rajeet"><h2>Rajeet</h2><p>Cheapest Randi from Siliguri</p></div>
+      <div class="member"><img src="../images/sanket.png" alt="Sanket"><h2>Sanket</h2><p>Chairman of the family</p></div>
+      <div class="member"><img src="../images/raghav.png" alt="Raghav"><h2>Raghav</h2><p>Director, Drosrrapagalu LLC</p></div>
+      <div class="member"><img src="../images/shubhankar.png" alt="Shubhu"><h2>Shubhankar Ganjedi</h2><p>Manager, Bhaichara</p></div>
+      <div class="member"><img src="../images/arindam.png" alt="Arindam"><h2>Arindam</h2><p>Instagram follower</p></div>
+      <div class="member"><img src="../images/hrishikesh.png" alt="Hrishikesh"><h2>Hrishikesh</h2><p>Professor of sleep</p></div>
+      <div class="member"><img src="../images/samarth.png" alt="Samarth"><h2>Samarth</h2><p>Licker of vegan dicks</p></div>
+    </div>
+    <div class="footer">
+      <p>🎉 Celebrate big, Sanket! 🎂</p>
+    </div>
+  </div>
+</body>
+</html>

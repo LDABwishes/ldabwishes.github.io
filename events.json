@@ -1,0 +1,76 @@
+{
+    "events": [
+      {
+        "name": "Samarth's Birthday",
+        "date": "12-01",
+        "type": "Birthday",
+        "directory": "/samarth"
+      },
+      {
+        "name": "Varun's Birthday",
+        "date": "05-26",
+        "type": "Birthday",
+        "directory": "/varun"
+      },
+      {
+        "name": "Ankit's Birthday",
+        "date": "03-28",
+        "type": "Birthday",
+        "directory": "/ankit"
+      },
+      {
+        "name": "Vedant's Birthday",
+        "date": "03-11",
+        "type": "Birthday",
+        "directory": "/vedant"
+      },
+      {
+        "name": "Aniket's Birthday",
+        "date": "12-11",
+        "type": "Birthday",
+        "directory": "/aniket"
+      },
+      {
+        "name": "Rajeet's Birthday",
+        "date": "11-02",
+        "type": "Birthday",
+        "directory": "/rajeet"
+      },
+      {
+        "name": "Sanket's Birthday",
+        "date": "04-05",
+        "type": "Birthday",
+        "directory": "/sanket"
+      },
+      {
+        "name": "Raghav's Birthday",
+        "date": "07-15",
+        "type": "Birthday",
+        "directory": "/raghav"
+      },
+      {
+        "name": "Shubhankar's Birthday",
+        "date": "01-20",
+        "type": "Birthday",
+        "directory": "/shubhankar"
+      },
+      {
+        "name": "Arindam's Birthday",
+        "date": "11-12",
+        "type": "Birthday",
+        "directory": "/arindam"
+      },
+      {
+        "name": "Hrishikesh's Birthday",
+        "date": "03-31",
+        "type": "Birthday",
+        "directory": "/hrishikesh"
+      },
+      {
+        "name": "Mehul's Birthday",
+        "date": "03-19",
+        "type": "Birthday",
+        "directory": "/mehul"
+      }
+    ]
+  }

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LDAB Events</title>
+  <style>
+    /* Reset & Global */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Helvetica, sans-serif;
+      background: linear-gradient(135deg, #1F1C2C, #928DAB);
+      color: #f5f5f5;
+      min-height: 100vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    
+    /* Container */
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: -1;
+    }
+    
+    /* Main Content */
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #FFD700;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+    
+    /* Big Countdown Counter */
+    .big-counter {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: #FF4500;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+    }
+    
+    /* Next Event Countdown (corner) */
+    .next-event-timer {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.7);
+      padding: 15px 20px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 1rem;
+      color: #FFD700;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      z-index: 10;
+    }
+    
+    /* Upcoming Events Section */
+    .upcoming {
+      width: 100%;
+      max-width: 600px;
+      margin-top: 40px;
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .upcoming h2 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #FFD700;
+      padding-bottom: 5px;
+    }
+    .upcoming ul {
+      list-style: none;
+    }
+    .upcoming li {
+      padding: 12px 10px;
+      margin: 10px 0;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .upcoming li:hover {
+      background: rgba(255, 215, 0, 0.3);
+      transform: scale(1.02);
+    }
+    .upcoming a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+    .upcoming a:hover {
+      color: #FFFFFF;
+    }
+    
+    /* Confetti Styles */
+    .confetti {
+      position: fixed;
+      top: 0;
+      pointer-events: none;
+      z-index: 9999;
+      width: 10px;
+      height: 10px;
+      opacity: 0.8;
+      animation: confetti-fall linear forwards;
+    }
+    @keyframes confetti-fall {
+      0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Next Event Countdown (only shown if no event today) -->
+  <div id="next-event-timer" class="next-event-timer" style="display: none;"></div>
+
+  <div class="container">
+    <h1 id="event-heading">Loading LDAB Events...</h1>
+    <p id="event-message">Please wait while we check for today’s events.</p>
+    <div id="counter" class="big-counter"></div>
+    
+    <div class="upcoming">
+      <h2>Upcoming</h2>
+      <ul id="upcoming-list"></ul>
+    </div>
+  </div>
+
+  <script>
+    // Helper: Pad numbers
+    function pad(num) {
+      return num < 10 ? '0' + num : num;
+    }
+
+    const today = new Date();
+    const todayStr = `${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
+    const currentYear = today.getFullYear();
+    
+    // Confetti effect
+    function createConfetti() {
+      for (let i = 0; i < 40; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        const size = Math.random() * 8 + 4;
+        confetti.style.width = size + 'px';
+        confetti.style.height = size + 'px';
+        const colors = ['#FFD700', '#FFFFFF', '#FF6347'];
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        confetti.style.animationDelay = Math.random() * 2 + 's';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), (parseFloat(confetti.style.animationDuration) + parseFloat(confetti.style.animationDelay)) * 1000);
+      }
+    }
+
+    // Calculate time difference to a target date
+    function getTimeDifference(targetDate) {
+      const now = new Date();
+      const diffMs = targetDate - now;
+      if (diffMs <= 0) return null;
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+      const diffSeconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+      return { diffDays, diffHours, diffMinutes, diffSeconds, diffMs };
+    }
+
+    fetch('events.json')
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        const events = data.events;
+        let redirectUrl = null;
+        let eventName = null;
+        const upcomingEvents = [];
+        const todayFull = new Date(`${currentYear}-${todayStr}`);
+
+        events.forEach(event => {
+          // Compute event occurrence date for this year
+          let eventDate = new Date(`${currentYear}-${event.date}`);
+          // If event date is before today and it's not today's event, adjust to next year
+          if (eventDate < todayFull && event.date !== todayStr) {
+            eventDate.setFullYear(currentYear + 1);
+          }
+          // Identify today's event (if any)
+          if (event.date === todayStr) {
+            redirectUrl = event.directory;
+            eventName = event.name;
+          } else {
+            upcomingEvents.push({
+              name: event.name,
+              date: event.date,
+              fullDate: eventDate,
+              directory: event.directory
+            });
+          }
+        });
+        // Sort upcoming events by their computed fullDate
+        upcomingEvents.sort((a, b) => a.fullDate - b.fullDate);
+
+        const heading = document.getElementById('event-heading');
+        const message = document.getElementById('event-message');
+        const counterElem = document.getElementById('counter');
+        const nextTimerElem = document.getElementById('next-event-timer');
+
+        // If today's event exists, display big counter & confetti redirect
+        if (redirectUrl) {
+          heading.textContent = `Today’s Event: ${eventName}`;
+          message.textContent = 'Get ready! Redirecting soon...';
+          let seconds = 5;
+          counterElem.textContent = seconds;
+          const countdownTimer = setInterval(() => {
+            seconds--;
+            counterElem.textContent = seconds;
+            if (seconds <= 0) {
+              clearInterval(countdownTimer);
+            }
+          }, 1000);
+          createConfetti();
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 5000);
+        } else {
+          // No event today
+          heading.textContent = "LDAB Family";
+          message.textContent = "Smile please";
+          counterElem.style.display = 'none';
+
+          // Show countdown in top-right corner if there is an upcoming event
+          if (upcomingEvents.length > 0) {
+            nextTimerElem.style.display = 'block';
+            // Get the next upcoming event date
+            const nextEvent = upcomingEvents[0];
+            const targetDate = new Date(nextEvent.fullDate);
+            // Update next event timer every second
+            const nextTimerInterval = setInterval(() => {
+              const timeDiff = getTimeDifference(targetDate);
+              if (!timeDiff) {
+                nextTimerElem.textContent = "Event Started!";
+                clearInterval(nextTimerInterval);
+              } else {
+                nextTimerElem.textContent = `Next: ${timeDiff.diffDays}d ${timeDiff.diffHours}h ${timeDiff.diffMinutes}m ${timeDiff.diffSeconds}s`;
+              }
+            }, 1000);
+          }
+        }
+
+        // Populate Upcoming Events List
+        const upcomingList = document.getElementById('upcoming-list');
+        if (upcomingEvents.length > 0) {
+          upcomingEvents.forEach(event => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="${event.directory}" target="_blank">${event.name} - ${event.date}</a>`;
+            upcomingList.appendChild(li);
+          });
+        } else {
+          const li = document.createElement('li');
+          li.textContent = "No upcoming events scheduled.";
+          upcomingList.appendChild(li);
+        }
+      })
+      .catch(error => {
+        console.error('Error loading events.json:', error);
+        document.getElementById('event-heading').textContent = "Error";
+        document.getElementById('event-message').textContent = "Could not load event data. Check console for details.";
+        document.getElementById('upcoming-list').innerHTML = '<li>Event data unavailable.</li>';
+      });
+  </script>
+</body>
+</html>
