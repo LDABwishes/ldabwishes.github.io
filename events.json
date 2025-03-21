@@ -7,6 +7,12 @@
         "directory": "/samarth"
       },
       {
+        "name": "Samarth vs Mehul",
+        "date": "12-25-2025",
+        "type": "MMA Fight",
+        "directory": "/ldabfights"
+      },
+      {
         "name": "Varun's Birthday",
         "date": "05-26",
         "type": "Birthday",
