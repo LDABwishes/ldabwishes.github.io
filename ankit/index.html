@@ -2,144 +2,220 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Happy Birthday, humare <s>tak...</s> pyaare Ankit bhai!</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Open+Sans&display=swap" rel="stylesheet">
   <style>
+    /* Reset & Global Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(135deg, #2c3e50, #000000);
+      color: #333;
       min-height: 100vh;
-      background: linear-gradient(#FF69B4, #FFC0CB);
-      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 20px;
-      overflow: auto;
+      overflow-y: auto;
     }
+    /* Main Poster Container */
     .poster {
       width: 900px;
-      border: 5px solid #FF1493;
-      border-radius: 10px;
-      padding: 20px;
-      background-color: #FFFFFF;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-      position: relative;
-      z-index: 0;
+      max-width: 100%;
+      background: #f5f5f5; /* slightly darker white */
+      border: 4px solid #c39d5f;
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       animation: fadeInCard 1s ease-in;
     }
     @keyframes fadeInCard {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
-    .header {
+    /* Left Section: Greeting */
+    .greeting {
+      background: linear-gradient(135deg, #e6e6e6, #d9d9d9);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+    }
+    .greeting h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      color: #c39d5f;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
       margin-bottom: 20px;
     }
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 48px;
-      color: #FF1493;
-      text-shadow: 2px 2px 4px #FFC0CB;
-    }
-    .header img {
-      width: 200px;
-      height: 200px;
+    .greeting img {
+      width: 220px;
+      height: 220px;
       border-radius: 50%;
-      border: 3px solid #FF1493;
-      margin-top: 10px;
+      border: 4px solid #c39d5f;
+      margin-bottom: 15px;
+      transition: transform 0.3s;
     }
-    .header p {
-      font-family: 'Open Sans', sans-serif;
-      font-size: 24px;
-      color: #FF1493;
+    .greeting img:hover {
+      transform: scale(1.05);
     }
-    .members {
+    .greeting p {
+      font-size: 22px;
+      color: #555;
+    }
+    /* Right Section: Gang Grid */
+    .gang {
+      background: #f0f0f0;
+      padding: 40px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 20px;
-      position: relative;
-      z-index: 2;
+      overflow-y: auto;
     }
     .member {
-      border: 2px solid #FF1493;
-      background-color: #FFD1DC;
-      padding: 10px;
+      background: #fff;
+      border: 2px solid #c39d5f;
+      border-radius: 10px;
+      padding: 15px;
       text-align: center;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
       opacity: 0;
       animation: fadeIn 0.5s ease-in forwards;
+    }
+    .member:nth-child(1) { animation-delay: 0.1s; }
+    .member:nth-child(2) { animation-delay: 0.2s; }
+    .member:nth-child(3) { animation-delay: 0.3s; }
+    .member:nth-child(4) { animation-delay: 0.4s; }
+    .member:nth-child(5) { animation-delay: 0.5s; }
+    .member:nth-child(6) { animation-delay: 0.6s; }
+    .member:nth-child(7) { animation-delay: 0.7s; }
+    .member:nth-child(8) { animation-delay: 0.8s; }
+    .member:nth-child(9) { animation-delay: 0.9s; }
+    .member:nth-child(10){ animation-delay: 1s; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .member img {
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      border: 2px solid #FF1493;
+      border: 2px solid #c39d5f;
       margin-bottom: 10px;
       transition: transform 0.3s;
     }
     .member img:hover {
-      animation: bounceImg 0.5s;
-    }
-    @keyframes bounceImg {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      transform: scale(1.1);
     }
     .member h2 {
-      font-family: 'Open Sans', sans-serif;
-      font-size: 24px;
-      color: #FF1493;
-      margin: 5px 0;
+      font-size: 20px;
+      color: #c39d5f;
+      margin-bottom: 5px;
     }
     .member p {
-      font-family: 'Open Sans', sans-serif;
-      font-size: 18px;
-      color: #FF1493;
-      margin: 0;
+      font-size: 16px;
+      color: #777;
     }
+    /* Footer Section */
     .footer {
+      grid-column: 1 / -1;
+      background: #e6e6e6;
+      padding: 20px;
       text-align: center;
-      margin-top: 20px;
-      position: relative;
-      z-index: 2;
     }
     .footer p {
-      font-family: 'Open Sans', sans-serif;
       font-size: 24px;
-      color: #FF1493;
+      color: #c39d5f;
+      margin: 0;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .poster {
+        grid-template-columns: 1fr;
+      }
+      .gang {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
-    @media (max-width: 700px) {
-      .poster { width: 100%; }
-      .members { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 400px) {
-      .members { grid-template-columns: 1fr; }
+    @media (max-width: 500px) {
+      .gang {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
   <div class="poster">
-    <div class="header">
+    <!-- Left: Greeting Section -->
+    <div class="greeting">
       <h1>Happy Birthday, humare <s>tak...</s> pyaare Ankit bhai!</h1>
       <img src="../images/ankit.png" alt="Ankit">
       <p>From your wild gang!</p>
     </div>
-    <div class="members">
-      <div class="member"><img src="../images/varun.png" alt="Varun"><h2>Varun</h2><p>Chief of labour union</p></div>
-      <div class="member"><img src="../images/ankit.png" alt="Ankit"><h2>Ankit</h2><p>Assistant to the chief</p></div>
-      <div class="member"><img src="../images/vedant.png" alt="Vedant"><h2>Vedant</h2><p>The Labour</p></div>
-      <div class="member"><img src="../images/aniket.png" alt="Aniket"><h2>Aniket</h2><p>CM of l*da ka sarkar</p></div>
-      <div class="member"><img src="../images/rajeet.png" alt="Rajeet"><h2>Rajeet</h2><p>Cheapest Randi from Siliguri</p></div>
-      <div class="member"><img src="../images/sanket.png" alt="Sanket"><h2>Sanket</h2><p>Chairman of the family</p></div>
-      <div class="member"><img src="../images/raghav.png" alt="Raghav"><h2>Raghav</h2><p>Director, Drosrrapagalu LLC</p></div>
-      <div class="member"><img src="../images/shubhankar.png" alt="Shubhu"><h2>Shubhankar Ganjedi</h2><p>Manager, Bhaichara</p></div>
-      <div class="member"><img src="../images/arindam.png" alt="Arindam"><h2>Arindam</h2><p>Instagram follower</p></div>
-      <div class="member"><img src="../images/hrishikesh.png" alt="Hrishikesh"><h2>Hrishikesh</h2><p>Professor of sleep</p></div>
-      <div class="member"><img src="../images/samarth.png" alt="Samarth"><h2>Samarth</h2><p>Licker of vegan dicks</p></div>
+    <!-- Right: Gang Members Grid -->
+    <div class="gang">
+      <div class="member">
+        <img src="../images/varun.png" alt="Varun">
+        <h2>Varun</h2>
+        <p>Chief of Labour Union</p>
+      </div>
+      <div class="member">
+        <img src="../images/ankit.png" alt="Ankit">
+        <h2>Ankit</h2>
+        <p>Assistant to the Chief</p>
+      </div>
+      <div class="member">
+        <img src="../images/vedant.png" alt="Vedant">
+        <h2>Vedant</h2>
+        <p>The Labour</p>
+      </div>
+      <div class="member">
+        <img src="../images/aniket.png" alt="Aniket">
+        <h2>Aniket</h2>
+        <p>CM of L*da ka Sarkar</p>
+      </div>
+      <div class="member">
+        <img src="../images/rajeet.png" alt="Rajeet">
+        <h2>Rajeet</h2>
+        <p>Cheapest Randi from Siliguri</p>
+      </div>
+      <div class="member">
+        <img src="../images/sanket.png" alt="Sanket">
+        <h2>Sanket</h2>
+        <p>Chairman of the Family</p>
+      </div>
+      <div class="member">
+        <img src="../images/raghav.png" alt="Raghav">
+        <h2>Raghav</h2>
+        <p>Director, Drosrrapagalu LLC</p>
+      </div>
+      <div class="member">
+        <img src="../images/shubhankar.png" alt="Shubhu">
+        <h2>Shubhankar Ganjedi</h2>
+        <p>Manager, Bhaichara</p>
+      </div>
+      <div class="member">
+        <img src="../images/arindam.png" alt="Arindam">
+        <h2>Arindam</h2>
+        <p>Instagram Follower</p>
+      </div>
+      <div class="member">
+        <img src="../images/hrishikesh.png" alt="Hrishikesh">
+        <h2>Hrishikesh</h2>
+        <p>Professor of Sleep</p>
+      </div>
+      <div class="member">
+        <img src="../images/samarth.png" alt="Samarth">
+        <h2>Samarth</h2>
+        <p>Licker of Vegan Dicks</p>
+      </div>
     </div>
+    <!-- Footer -->
     <div class="footer">
       <p>🎂 Have a blast, Ankit! 🎉</p>
     </div>
