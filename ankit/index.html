@@ -18,27 +18,134 @@
       justify-content: center;
       padding: 20px;
       overflow-y: auto;
-      position: relative;
     }
-    /* Red Button */
-    .secret-button {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
+    /* Main Poster Container */
+    .poster {
+      width: 900px;
+      max-width: 100%;
+      background: #f5f5f5; /* slightly darker white */
+      border: 4px solid #c39d5f;
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      animation: fadeInCard 1s ease-in;
+    }
+    @keyframes fadeInCard {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    /* Left Section: Greeting */
+    .greeting {
+      background: linear-gradient(135deg, #e6e6e6, #d9d9d9);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .greeting h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      color: #c39d5f;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+    .greeting img {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      border: 4px solid #c39d5f;
+      margin-bottom: 15px;
+      transition: transform 0.3s;
+    }
+    .greeting img:hover {
+      transform: scale(1.05);
+    }
+    .greeting p {
+      font-size: 22px;
+      color: #555;
+    }
+    /* Right Section: Gang Grid */
+    .gang {
+      background: #f0f0f0;
+      padding: 40px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      overflow-y: auto;
+    }
+    .member {
+      background: #fff;
+      border: 2px solid #c39d5f;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in forwards;
+    }
+    .member:nth-child(1) { animation-delay: 0.1s; }
+    .member:nth-child(2) { animation-delay: 0.2s; }
+    .member:nth-child(3) { animation-delay: 0.3s; }
+    .member:nth-child(4) { animation-delay: 0.4s; }
+    .member:nth-child(5) { animation-delay: 0.5s; }
+    .member:nth-child(6) { animation-delay: 0.6s; }
+    .member:nth-child(7) { animation-delay: 0.7s; }
+    .member:nth-child(8) { animation-delay: 0.8s; }
+    .member:nth-child(9) { animation-delay: 0.9s; }
+    .member:nth-child(10){ animation-delay: 1s; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .member img {
       width: 80px;
       height: 80px;
-      background: red;
-      color: white;
-      border: none;
       border-radius: 50%;
-      font-size: 12px;
-      text-align: center;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
+      border: 2px solid #c39d5f;
+      margin-bottom: 10px;
+      transition: transform 0.3s;
     }
-    .secret-button:hover {
+    .member img:hover {
       transform: scale(1.1);
+    }
+    .member h2 {
+      font-size: 20px;
+      color: #c39d5f;
+      margin-bottom: 5px;
+    }
+    .member p {
+      font-size: 16px;
+      color: #777;
+    }
+    /* Footer Section */
+    .footer {
+      grid-column: 1 / -1;
+      background: #e6e6e6;
+      padding: 20px;
+      text-align: center;
+    }
+    .footer p {
+      font-size: 24px;
+      color: #c39d5f;
+      margin: 0;
+    }
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .poster {
+        grid-template-columns: 1fr;
+      }
+      .gang {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 500px) {
+      .gang {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -47,63 +154,63 @@
     <!-- Left: Greeting Section -->
     <div class="greeting">
       <h1>Happy Birthday, humare <s>tak...</s> pyaare Ankit bhai!</h1>
-      <img src="../images/ankith.png" alt="Ankit">
+      <img src="../images/ankit.png" alt="Ankit">
       <p>From your wild gang!</p>
     </div>
     <!-- Right: Gang Members Grid -->
     <div class="gang">
       <div class="member">
-        <img src="../images/varunb.png" alt="Varun">
+        <img src="../images/varun.png" alt="Varun">
         <h2>Varun</h2>
         <p>Chief of Labour Union</p>
       </div>
       <div class="member">
-        <img src="../images/mehulb.png" alt="Ankit">
-        <h2>Mehul</h2>
-        <p>Temporary Assistant to the Chief</p>
+        <img src="../images/ankit.png" alt="Ankit">
+        <h2>Ankit</h2>
+        <p>Assistant to the Chief</p>
       </div>
       <div class="member">
-        <img src="../images/vedantb.png" alt="Vedant">
+        <img src="../images/vedant.png" alt="Vedant">
         <h2>Vedant</h2>
         <p>The Labour</p>
       </div>
       <div class="member">
-        <img src="../images/aniketb.png" alt="Aniket">
+        <img src="../images/aniket.png" alt="Aniket">
         <h2>Aniket</h2>
         <p>CM of L*da ka Sarkar</p>
       </div>
       <div class="member">
         <img src="../images/rajeet.png" alt="Rajeet">
         <h2>Rajeet</h2>
-        <p>GIGACHAD from Siliguri</p>
+        <p>Cheapest Randi from Siliguri</p>
       </div>
       <div class="member">
-        <img src="../images/sanketb.png" alt="Sanket">
+        <img src="../images/sanket.png" alt="Sanket">
         <h2>Sanket</h2>
         <p>Chairman of the Family</p>
       </div>
       <div class="member">
-        <img src="../images/raghavb.png" alt="Raghav">
+        <img src="../images/raghav.png" alt="Raghav">
         <h2>Raghav</h2>
         <p>Director, Drosrrapagalu LLC</p>
       </div>
       <div class="member">
-        <img src="../images/shubhankarb.png" alt="Shubhu">
+        <img src="../images/shubhankar.png" alt="Shubhu">
         <h2>Shubhankar Ganjedi</h2>
         <p>Manager, Bhaichara</p>
       </div>
       <div class="member">
-        <img src="../images/arindamb.png" alt="Arindam">
+        <img src="../images/arindam.png" alt="Arindam">
         <h2>Arindam</h2>
         <p>Instagram Follower</p>
       </div>
       <div class="member">
-        <img src="../images/hrishikeshb.png" alt="Hrishikesh">
+        <img src="../images/hrishikesh.png" alt="Hrishikesh">
         <h2>Hrishikesh</h2>
         <p>Professor of Sleep</p>
       </div>
       <div class="member">
-        <img src="../images/samarthb.png" alt="Samarth">
+        <img src="../images/samarth.png" alt="Samarth">
         <h2>Samarth</h2>
         <p>Licker of Vegan Dicks</p>
       </div>
@@ -113,18 +220,5 @@
       <p>🎂 Have a blast, Ankit! 🎉</p>
     </div>
   </div>
-  
-  <!-- Secret Button -->
-  <button class="secret-button" id="secretButton">5 BAAR CLICK MAT KARNA, ANKIT JI</button>
-  
-  <script>
-    let clickCount = 0;
-    document.getElementById("secretButton").addEventListener("click", function() {
-      clickCount++;
-      if (clickCount === 5) {
-        window.location.href = "https://i.imgflip.com/5wq7xg.jpg"; // Change this URL to your meme
-      }
-    });
-  </script>
 </body>
 </html>
