@@ -184,10 +184,16 @@
       return num < 10 ? '0' + num : num;
     }
 
-    const today = getISTTime();
-    const todayStr = `${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
-    const currentYear = today.getFullYear();
-    
+    // Build today’s IST date using the IST components
+    const istNow = getISTTime();
+    const todayYear = istNow.getFullYear();
+    const todayMonth = istNow.getMonth(); // 0-indexed
+    const todayDate = istNow.getDate();
+    const todayFull = new Date(todayYear, todayMonth, todayDate); // Represents midnight of today in the local time zone but based on IST components
+
+    // Also create a string in MM-DD format for comparison
+    const todayStr = `${pad(todayMonth + 1)}-${pad(todayDate)}`;
+
     // Confetti effect
     function createConfetti() {
       for (let i = 0; i < 40; i++) {
@@ -228,13 +234,18 @@
         let redirectUrl = null;
         let eventName = null;
         const upcomingEvents = [];
-        const todayFull = new Date(`${currentYear}-${todayStr}`);
         
+        // Process each event using IST
         events.forEach(event => {
-          let eventDate = new Date(`${currentYear}-${event.date}`);
+          // Parse event.date which is expected to be in MM-DD format
+          const [m, d] = event.date.split('-').map(Number);
+          let eventDate = new Date(todayYear, m - 1, d); // Creates date based on IST year
+          
+          // If the event date is before today's IST midnight and it's not today, consider it for next year
           if (eventDate < todayFull && event.date !== todayStr) {
-            eventDate.setFullYear(currentYear + 1);
+            eventDate.setFullYear(todayYear + 1);
           }
+          
           if (event.date === todayStr) {
             redirectUrl = event.directory;
             eventName = event.name;
