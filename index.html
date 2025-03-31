@@ -191,7 +191,7 @@
     const todayYear = istNow.getFullYear();
     const todayMonth = istNow.getMonth(); // 0-indexed
     const todayDate = istNow.getDate();
-    const todayFull = new Date(todayYear, todayMonth, todayDate); // Represents midnight of today in the local time zone but based on IST components
+    const todayFull = new Date(todayYear, todayMonth, todayDate); // Represents midnight of today based on IST components
 
     // Also create a string in MM-DD format for comparison
     const todayStr = `${pad(todayMonth + 1)}-${pad(todayDate)}`;
@@ -266,7 +266,8 @@
         const message = document.getElementById('event-message');
         const counterElem = document.getElementById('counter');
         const nextTimerElem = document.getElementById('next-event-timer');
-        
+
+        // If there is an event today, send a push notification
         if (redirectUrl) {
           heading.textContent = `Today’s Event: ${eventName}`;
           message.textContent = 'Get ready! Redirecting soon...';
@@ -280,6 +281,20 @@
             }
           }, 1000);
           createConfetti();
+
+          // Push Notification Code
+          if ('Notification' in window) {
+            if (Notification.permission === 'granted') {
+              new Notification("Today's Event", { body: `${eventName} is happening today!` });
+            } else if (Notification.permission !== 'denied') {
+              Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                  new Notification("Today's Event", { body: `${eventName} is happening today!` });
+                }
+              });
+            }
+          }
+
           setTimeout(() => {
             window.location.href = redirectUrl;
           }, 5000);
