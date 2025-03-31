@@ -181,7 +181,7 @@
       return new Date(utc + 19800000); // IST = UTC +5:30 (19800000 ms)
     }
 
-    // Helper: Pad numbers
+    // Helper: Pad numbers with a leading zero if needed
     function pad(num) {
       return num < 10 ? '0' + num : num;
     }
@@ -191,12 +191,12 @@
     const todayYear = istNow.getFullYear();
     const todayMonth = istNow.getMonth(); // 0-indexed
     const todayDate = istNow.getDate();
-    const todayFull = new Date(todayYear, todayMonth, todayDate); // Represents midnight of today based on IST components
+    const todayFull = new Date(todayYear, todayMonth, todayDate); // Represents today's midnight based on IST components
 
-    // Also create a string in MM-DD format for comparison
+    // Create a MM-DD formatted string for comparison
     const todayStr = `${pad(todayMonth + 1)}-${pad(todayDate)}`;
 
-    // Confetti effect
+    // Confetti effect function
     function createConfetti() {
       for (let i = 0; i < 40; i++) {
         const confetti = document.createElement('div');
@@ -214,7 +214,7 @@
       }
     }
 
-    // Calculate time difference to a target date using IST
+    // Calculate the time difference for a target date using IST
     function getTimeDifference(targetDate) {
       const now = getISTTime();
       const diffMs = targetDate - now;
@@ -239,11 +239,11 @@
         
         // Process each event using IST
         events.forEach(event => {
-          // Parse event.date which is expected to be in MM-DD format
+          // Parse event.date (expected format: MM-DD)
           const [m, d] = event.date.split('-').map(Number);
-          let eventDate = new Date(todayYear, m - 1, d); // Creates date based on IST year
+          let eventDate = new Date(todayYear, m - 1, d);
           
-          // If the event date is before today's IST midnight and it's not today, consider it for next year
+          // If eventDate is before today's IST midnight and it's not today, schedule for next year
           if (eventDate < todayFull && event.date !== todayStr) {
             eventDate.setFullYear(todayYear + 1);
           }
@@ -267,12 +267,14 @@
         const counterElem = document.getElementById('counter');
         const nextTimerElem = document.getElementById('next-event-timer');
 
-        // If there is an event today, send a push notification
+        // If there is an event today, notify the user
         if (redirectUrl) {
           heading.textContent = `Today’s Event: ${eventName}`;
           message.textContent = 'Get ready! Redirecting soon...';
           let seconds = 5;
           counterElem.textContent = seconds;
+          
+          // Countdown timer for redirection
           const countdownTimer = setInterval(() => {
             seconds--;
             counterElem.textContent = seconds;
@@ -280,9 +282,10 @@
               clearInterval(countdownTimer);
             }
           }, 1000);
+          
           createConfetti();
-
-          // Push Notification Code
+          
+          // Browser Push Notification Code
           if ('Notification' in window) {
             if (Notification.permission === 'granted') {
               new Notification("Today's Event", { body: `${eventName} is happening today!` });
@@ -294,7 +297,7 @@
               });
             }
           }
-
+          
           setTimeout(() => {
             window.location.href = redirectUrl;
           }, 5000);
@@ -319,6 +322,7 @@
           }
         }
         
+        // Populate upcoming events list
         const upcomingList = document.getElementById('upcoming-list');
         if (upcomingEvents.length > 0) {
           upcomingEvents.forEach(event => {
