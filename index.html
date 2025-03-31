@@ -174,174 +174,176 @@
   </div>
 
   <script>
-    // Function to get the current IST (Indian Standard Time)
-    function getISTTime() {
-      const now = new Date();
-      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-      return new Date(utc + 19800000); // IST = UTC +5:30 (19800000 ms)
-    }
+    // Wait for the DOM to load before running the script
+    document.addEventListener("DOMContentLoaded", function() {
 
-    // Helper: Pad numbers with a leading zero if needed
-    function pad(num) {
-      return num < 10 ? '0' + num : num;
-    }
-
-    // Build today’s IST date using the IST components
-    const istNow = getISTTime();
-    const todayYear = istNow.getFullYear();
-    const todayMonth = istNow.getMonth(); // 0-indexed
-    const todayDate = istNow.getDate();
-    const todayFull = new Date(todayYear, todayMonth, todayDate); // Represents today's midnight based on IST components
-
-    // Create a MM-DD formatted string for comparison
-    const todayStr = `${pad(todayMonth + 1)}-${pad(todayDate)}`;
-
-    // Confetti effect function
-    function createConfetti() {
-      for (let i = 0; i < 40; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + '%';
-        const size = Math.random() * 8 + 4;
-        confetti.style.width = size + 'px';
-        confetti.style.height = size + 'px';
-        const colors = ['#c39d5f', '#c0392b', '#27ae60'];
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        confetti.style.animationDelay = Math.random() * 2 + 's';
-        document.body.appendChild(confetti);
-        setTimeout(() => confetti.remove(), (parseFloat(confetti.style.animationDuration) + parseFloat(confetti.style.animationDelay)) * 1000);
+      // Function to get the current IST (Indian Standard Time)
+      function getISTTime() {
+        const now = new Date();
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+        return new Date(utc + 19800000); // IST = UTC +5:30 (19800000 ms)
       }
-    }
 
-    // Calculate the time difference for a target date using IST
-    function getTimeDifference(targetDate) {
-      const now = getISTTime();
-      const diffMs = targetDate - now;
-      if (diffMs <= 0) return null;
-      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-      const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-      const diffSeconds = Math.floor((diffMs % (1000 * 60)) / 1000);
-      return { diffDays, diffHours, diffMinutes, diffSeconds, diffMs };
-    }
+      // Helper: Pad numbers with a leading zero if needed
+      function pad(num) {
+        return num < 10 ? '0' + num : num;
+      }
 
-    fetch('events.json')
-      .then(response => {
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        return response.json();
-      })
-      .then(data => {
-        const events = data.events;
-        let redirectUrl = null;
-        let eventName = null;
-        const upcomingEvents = [];
-        
-        // Process each event using IST
-        events.forEach(event => {
-          // Parse event.date (expected format: MM-DD)
-          const [m, d] = event.date.split('-').map(Number);
-          let eventDate = new Date(todayYear, m - 1, d);
-          
-          // If eventDate is before today's IST midnight and it's not today, schedule for next year
-          if (eventDate < todayFull && event.date !== todayStr) {
-            eventDate.setFullYear(todayYear + 1);
-          }
-          
-          if (event.date === todayStr) {
-            redirectUrl = event.directory;
-            eventName = event.name;
-          } else {
-            upcomingEvents.push({
-              name: event.name,
-              date: event.date,
-              fullDate: eventDate,
-              directory: event.directory
-            });
-          }
-        });
-        upcomingEvents.sort((a, b) => a.fullDate - b.fullDate);
-        
-        const heading = document.getElementById('event-heading');
-        const message = document.getElementById('event-message');
-        const counterElem = document.getElementById('counter');
-        const nextTimerElem = document.getElementById('next-event-timer');
+      // Build today’s IST date using IST components
+      const istNow = getISTTime();
+      const todayYear = istNow.getFullYear();
+      const todayMonth = istNow.getMonth(); // 0-indexed
+      const todayDate = istNow.getDate();
+      const todayFull = new Date(todayYear, todayMonth, todayDate); // Today's midnight (IST)
+      // Create a MM-DD formatted string for comparison
+      const todayStr = `${pad(todayMonth + 1)}-${pad(todayDate)}`;
 
-        // If there is an event today, notify the user
-        if (redirectUrl) {
-          heading.textContent = `Today’s Event: ${eventName}`;
-          message.textContent = 'Get ready! Redirecting soon...';
-          let seconds = 5;
-          counterElem.textContent = seconds;
+      // Confetti effect function
+      function createConfetti() {
+        for (let i = 0; i < 40; i++) {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = Math.random() * 100 + '%';
+          const size = Math.random() * 8 + 4;
+          confetti.style.width = size + 'px';
+          confetti.style.height = size + 'px';
+          const colors = ['#c39d5f', '#c0392b', '#27ae60'];
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+          confetti.style.animationDelay = Math.random() * 2 + 's';
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), (parseFloat(confetti.style.animationDuration) + parseFloat(confetti.style.animationDelay)) * 1000);
+        }
+      }
+
+      // Calculate the time difference for a target date using IST
+      function getTimeDifference(targetDate) {
+        const now = getISTTime();
+        const diffMs = targetDate - now;
+        if (diffMs <= 0) return null;
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+        const diffSeconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+        return { diffDays, diffHours, diffMinutes, diffSeconds, diffMs };
+      }
+
+      // Fetch event data from events.json
+      fetch('events.json')
+        .then(response => {
+          if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+          return response.json();
+        })
+        .then(data => {
+          const events = data.events;
+          let redirectUrl = null;
+          let eventName = null;
+          const upcomingEvents = [];
           
-          // Countdown timer for redirection
-          const countdownTimer = setInterval(() => {
-            seconds--;
-            counterElem.textContent = seconds;
-            if (seconds <= 0) {
-              clearInterval(countdownTimer);
+          // Process each event (expected event.date format: MM-DD)
+          events.forEach(event => {
+            const [m, d] = event.date.split('-').map(Number);
+            let eventDate = new Date(todayYear, m - 1, d);
+            
+            // If the event date is before today (based on IST) and not today, schedule it for next year
+            if (eventDate < todayFull && event.date !== todayStr) {
+              eventDate.setFullYear(todayYear + 1);
             }
-          }, 1000);
-          
-          createConfetti();
-          
-          // Browser Push Notification Code
-          if ('Notification' in window) {
-            if (Notification.permission === 'granted') {
-              new Notification("Today's Event", { body: `${eventName} is happening today!` });
-            } else if (Notification.permission !== 'denied') {
-              Notification.requestPermission().then(permission => {
-                if (permission === 'granted') {
-                  new Notification("Today's Event", { body: `${eventName} is happening today!` });
-                }
+            
+            if (event.date === todayStr) {
+              redirectUrl = event.directory;
+              eventName = event.name;
+            } else {
+              upcomingEvents.push({
+                name: event.name,
+                date: event.date,
+                fullDate: eventDate,
+                directory: event.directory
               });
             }
-          }
-          
-          setTimeout(() => {
-            window.location.href = redirectUrl;
-          }, 5000);
-        } else {
-          heading.textContent = "LDAB Family";
-          message.textContent = "Smile, please.";
-          counterElem.style.display = 'none';
-          
-          if (upcomingEvents.length > 0) {
-            nextTimerElem.style.display = 'block';
-            const nextEvent = upcomingEvents[0];
-            const targetDate = new Date(nextEvent.fullDate);
-            const nextTimerInterval = setInterval(() => {
-              const timeDiff = getTimeDifference(targetDate);
-              if (!timeDiff) {
-                nextTimerElem.textContent = "Event Started!";
-                clearInterval(nextTimerInterval);
-              } else {
-                nextTimerElem.textContent = `Next: ${timeDiff.diffDays}d ${timeDiff.diffHours}h ${timeDiff.diffMinutes}m ${timeDiff.diffSeconds}s`;
-              }
-            }, 1000);
-          }
-        }
-        
-        // Populate upcoming events list
-        const upcomingList = document.getElementById('upcoming-list');
-        if (upcomingEvents.length > 0) {
-          upcomingEvents.forEach(event => {
-            const li = document.createElement('li');
-            li.innerHTML = `<a href="${event.directory}" target="_blank">${event.name} - ${event.date}</a>`;
-            upcomingList.appendChild(li);
           });
-        } else {
-          const li = document.createElement('li');
-          li.textContent = "No upcoming events scheduled.";
-          upcomingList.appendChild(li);
-        }
-      })
-      .catch(error => {
-        console.error('Error loading events.json:', error);
-        document.getElementById('event-heading').textContent = "Error";
-        document.getElementById('event-message').textContent = "Could not load event data. Check console for details.";
-        document.getElementById('upcoming-list').innerHTML = '<li>Event data unavailable.</li>';
-      });
+          // Sort upcoming events by date
+          upcomingEvents.sort((a, b) => a.fullDate - b.fullDate);
+          
+          const heading = document.getElementById('event-heading');
+          const message = document.getElementById('event-message');
+          const counterElem = document.getElementById('counter');
+          const nextTimerElem = document.getElementById('next-event-timer');
+          
+          // If there's an event today, update the UI and notify the user
+          if (redirectUrl) {
+            heading.textContent = `Today’s Event: ${eventName}`;
+            message.textContent = 'Get ready! Redirecting soon...';
+            let seconds = 5;
+            counterElem.textContent = seconds;
+            
+            // Countdown for redirection
+            const countdownTimer = setInterval(() => {
+              seconds--;
+              counterElem.textContent = seconds;
+              if (seconds <= 0) clearInterval(countdownTimer);
+            }, 1000);
+            
+            createConfetti();
+            
+            // Browser Push Notification Code
+            if ('Notification' in window) {
+              if (Notification.permission === 'granted') {
+                new Notification("Today's Event", { body: `${eventName} is happening today!` });
+              } else if (Notification.permission !== 'denied') {
+                Notification.requestPermission().then(permission => {
+                  if (permission === 'granted') {
+                    new Notification("Today's Event", { body: `${eventName} is happening today!` });
+                  }
+                });
+              }
+            }
+            
+            setTimeout(() => {
+              window.location.href = redirectUrl;
+            }, 5000);
+          } else {
+            heading.textContent = "LDAB Family";
+            message.textContent = "Smile, please.";
+            counterElem.style.display = 'none';
+            
+            if (upcomingEvents.length > 0) {
+              nextTimerElem.style.display = 'block';
+              const nextEvent = upcomingEvents[0];
+              const targetDate = new Date(nextEvent.fullDate);
+              const nextTimerInterval = setInterval(() => {
+                const timeDiff = getTimeDifference(targetDate);
+                if (!timeDiff) {
+                  nextTimerElem.textContent = "Event Started!";
+                  clearInterval(nextTimerInterval);
+                } else {
+                  nextTimerElem.textContent = `Next: ${timeDiff.diffDays}d ${timeDiff.diffHours}h ${timeDiff.diffMinutes}m ${timeDiff.diffSeconds}s`;
+                }
+              }, 1000);
+            }
+          }
+          
+          // Populate the upcoming events list
+          const upcomingList = document.getElementById('upcoming-list');
+          if (upcomingEvents.length > 0) {
+            upcomingEvents.forEach(event => {
+              const li = document.createElement('li');
+              li.innerHTML = `<a href="${event.directory}" target="_blank">${event.name} - ${event.date}</a>`;
+              upcomingList.appendChild(li);
+            });
+          } else {
+            const li = document.createElement('li');
+            li.textContent = "No upcoming events scheduled.";
+            upcomingList.appendChild(li);
+          }
+        })
+        .catch(error => {
+          console.error('Error loading events.json:', error);
+          document.getElementById('event-heading').textContent = "Error";
+          document.getElementById('event-message').textContent = "Could not load event data. Check console for details.";
+          document.getElementById('upcoming-list').innerHTML = '<li>Event data unavailable.</li>';
+        });
+    });
   </script>
 </body>
 </html>
