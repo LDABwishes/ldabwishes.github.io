@@ -14,14 +14,15 @@
     }
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: radial-gradient(ellipse at center, #141414 0%, #000 100%);
       color: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      overflow: hidden;
+      overflow-y: auto;
       position: relative;
+      padding-bottom: 2rem;
     }
     header {
       text-align: center;
@@ -31,13 +32,16 @@
     header h1 {
       font-size: 3rem;
       margin-bottom: 1rem;
+      text-shadow: 0 0 10px #e63946, 0 0 20px #e63946;
+      color: #f1faee;
     }
     header img {
       width: 150px;
       height: 150px;
       border-radius: 50%;
-      border: 4px solid #fff;
+      border: 4px solid #e63946;
       object-fit: cover;
+      box-shadow: 0 0 15px #e63946;
     }
     .members-container {
       width: 90%;
@@ -49,86 +53,60 @@
       z-index: 2;
     }
     .member-card {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
       border-radius: 15px;
       padding: 1rem;
       text-align: center;
-      transition: transform 0.3s, background 0.3s;
+      border: 1px solid rgba(230, 57, 70, 0.6);
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
     }
     .member-card:hover {
       transform: translateY(-5px);
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 10px #e63946;
     }
     .member-card img {
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      border: 2px solid #fff;
+      border: 2px solid #e63946;
       object-fit: cover;
       margin-bottom: 0.5rem;
+      box-shadow: 0 0 10px #e63946;
     }
     .member-card h2 {
       font-size: 1.2rem;
       font-weight: 500;
+      color: #f1faee;
+      text-shadow: 0 0 5px #e63946;
     }
     footer {
       margin: 2rem 0;
       text-align: center;
       font-size: 1.2rem;
       z-index: 2;
+      text-shadow: 0 0 10px #e63946;
     }
-    /* Floating shapes background */
-    .floating-shape {
+    /* Neon background accents */
+    .neon-bar {
       position: absolute;
-      border-radius: 50%;
-      opacity: 0.3;
-      animation: float 8s ease-in-out infinite;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, transparent, #e63946, transparent);
+      box-shadow: 0 0 10px #e63946;
+      z-index: 1;
     }
-    @keyframes float {
-      0% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-50px) scale(1.2); }
-      100% { transform: translateY(0) scale(1); }
-    }
-    .shape1 {
-      width: 100px;
-      height: 100px;
-      background: #ff6b6b;
-      top: 10%;
-      left: 5%;
-      animation-duration: 10s;
-    }
-    .shape2 {
-      width: 150px;
-      height: 150px;
-      background: #feca57;
-      top: 70%;
-      right: 5%;
-      animation-duration: 12s;
-    }
-    .shape3 {
-      width: 80px;
-      height: 80px;
-      background: #48dbfb;
-      bottom: 10%;
-      left: 20%;
-      animation-duration: 9s;
-    }
-    .shape4 {
-      width: 120px;
-      height: 120px;
-      background: #1dd1a1;
-      bottom: 20%;
-      right: 15%;
-      animation-duration: 11s;
+    .neon-bar.bottom {
+      top: auto;
+      bottom: 0;
     }
   </style>
 </head>
 <body>
-  <!-- Floating shapes for added visual interest -->
-  <div class="floating-shape shape1"></div>
-  <div class="floating-shape shape2"></div>
-  <div class="floating-shape shape3"></div>
-  <div class="floating-shape shape4"></div>
+  <div class="neon-bar"></div>
+  <div class="neon-bar bottom"></div>
   
   <header>
     <h1>Happy Birthday, Vedant!</h1>
@@ -183,7 +161,7 @@
   </section>
   
   <footer>
-    <p>Cheers to you, Vedant! 🎂🎉</p>
+    <p>Freaky-as* n!ggas, he a 69 god! 🎂🎉</p>
   </footer>
 </body>
 </html>
